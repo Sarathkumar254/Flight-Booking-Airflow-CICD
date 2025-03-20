@@ -37,7 +37,7 @@ jobs:
       # Import Variables into Airflow-DEV
       - name: Import Variables into Airflow-DEV
         run: |
-          gcloud composer environments run airflow-dev \
+          gcloud composer environments run first-airflow-job \
             --location us-central1 \
             variables import -- /home/airflow/gcs/data/dev/variables.json
 
@@ -50,7 +50,7 @@ jobs:
       - name: Upload Airflow DAG to DEV
         run: |
           gcloud composer environments storage dags import \
-            --environment airflow-dev \
+            --environment first-airflow-job \
             --location us-central1 \
             --source airflow_job/airflow_job.py
 
