@@ -10,6 +10,7 @@ jobs:
   upload-to-dev:
     if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
+    environment: test
 
     steps:
       # Checkout the repository
