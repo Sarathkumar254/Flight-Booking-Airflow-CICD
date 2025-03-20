@@ -57,6 +57,8 @@ jobs:
   upload-to-prod:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    environment: test
+
 
     steps:
       # Checkout the repository
@@ -78,12 +80,12 @@ jobs:
       # Upload `variables.json` to Composer bucket
       - name: Upload Variables JSON to GCS
         run: |
-          gsutil cp variables/prod/variables.json gs://us-central1-airflow-prod-5fd790a9-bucket/data/prod/variables.json
+          gsutil cp variables/prod/variables.json gs://us-central1-first-airflow-j-19eef7c7-bucket/data/dev/variables.json
 
       # Import Variables into Airflow-PROD
       - name: Import Variables into Airflow-PROD
         run: |
-          gcloud composer environments run airflow-prod \
+          gcloud composer environments run first-airflow-job \
             --location us-central1 \
             variables import -- /home/airflow/gcs/data/prod/variables.json
 
@@ -96,6 +98,6 @@ jobs:
       - name: Upload Airflow DAG to PROD
         run: |
           gcloud composer environments storage dags import \
-            --environment airflow-prod \
+            --environment first-airflow-job \
             --location us-central1 \
             --source airflow_job/airflow_job.py
